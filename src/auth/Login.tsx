@@ -1,12 +1,15 @@
 import { CustomInputField, CustomButton } from "../components";
-import queries
- from "../services/queries/auth";
+import queries from "../services/queries/auth";
 import { useState } from "react";
 const Login = () => {
-  const [form, setForm] = useState({ pwd: "", usr: "" });
-  const submit = () => {
-    const { mutate, isLoading } = queries.login();
-     mutate(form);
+  const [form, setForm] = useState({ pwd: "testy123@", usr: "test@brandimic.com" });
+  
+    const { mutateAsync, isLoading } =  queries.login();
+
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutateAsync(form);
+ 
   };
   return (
     <div className="py-10 px-10 bg-white">
@@ -28,8 +31,9 @@ const Login = () => {
             <CustomInputField
               leftIcon="/images/users.svg"
               required
+              value={form.usr}
               placeholder="your username"
-              onChange={(value:string) => {
+              onChange={(value: string) => {
                 setForm({ ...form, usr: value });
               }}
             />
@@ -43,10 +47,11 @@ const Login = () => {
 
             <CustomInputField
               required
+              value={form.pwd}
               leftIcon="/images/lock.svg"
               type="password"
               placeholder="your password"
-              onChange={(value:string) => {
+              onChange={(value: string) => {
                 setForm({ ...form, pwd: value });
               }}
             />
@@ -60,7 +65,12 @@ const Login = () => {
           </div>
 
           <div className="pt-2.5">
-            <CustomButton type="submit" title="Sign in" disabled={form.pwd===''|| form.usr===''} />
+            <CustomButton
+              type="submit"
+              isLoading={isLoading}
+              title="Sign in"
+              disabled={form.pwd === "" || form.usr === ""}
+            />
           </div>
         </form>
       </div>

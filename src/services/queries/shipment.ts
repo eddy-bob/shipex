@@ -6,9 +6,8 @@ import {
 import api from "../api";
 import shipmentKey from "../queryKeys/shipment";
 
-const shipment = async (options?: any) => {
-  const { mutate, ...response } = useMutation({
-    mutationFn: api.post,
+const trackShipment =  (options?: any) => {
+  const { mutateAsync, ...response } = useMutation(api.get, {
     mutationKey: [shipmentKey.get],
     ...options,
     onSuccess: async (data: any) => {
@@ -20,17 +19,16 @@ const shipment = async (options?: any) => {
   });
   return {
     ...response,
-    mutate: (body: { search:string}) => {
+    mutateAsync: (body: { name: string }) => {
       const url = `/frappe.client.get`;
 
-      mutate({ url, body });
+      mutateAsync({ url, body });
     },
   };
-  
 };
 
 const queries = {
-  shipment,
+  trackShipment,
 };
 
 export default queries;

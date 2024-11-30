@@ -25,7 +25,7 @@ const CustomButton = ({
       style={style}
       onClick={onClick}
       type={type}
-      disabled={disabled || isLoading}
+      disabled={isLoading || disabled}
       className={`flex w-full outline-none disabled:bg-blue-disabled bg-blue-base justify-center text-center align-middle p-2.5 focus:ring-4 font-[600] text-[15px] focus:ring-blue-100 text-[#EFF6FF] focus:border-blue-base border rounded-md border-[#E5E7EB] ${className}`}
     >
       {

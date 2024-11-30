@@ -1,12 +1,15 @@
-import { useParams } from "react-router-dom";
 import { State, RenderIf } from "../components";
 import { RequstState } from "../components/states/State";
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CustomButton, CustomInputField } from "../components";
+import queries from "../services/queries/shipment";
 
 const ViewShipment = () => {
   const [search, setSearch] = useState("");
   const [state, setState] = useState<RequstState>("no-result");
+  const [validationMessage, setValidationMessage] = useState<string>();
+  const [shipment, setShipment] = useState();
+  const { mutateAsync, isLoading , data: shipmentData} = queries.trackShipment();
 
   const data = {
     trackId: "4515645646466",
@@ -42,9 +45,12 @@ const ViewShipment = () => {
       description: "Description goes here",
     },
   };
-  const fetchShipment = () => {};
+  const fetchShipment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    mutateAsync({ name: search })
+    setShipment(shipmentData);
+  };
 
- 
   return (
     <div className="p-10 bg-white">
       <form
@@ -53,18 +59,20 @@ const ViewShipment = () => {
       >
         <CustomInputField
           placeholder="Enter AWB ID"
+          validationErrorMessage={validationMessage}
           className="w-[6000px]"
           inputStyle="placeholder:text-[#6B7280] text-grey-dark font-[500]"
           onChange={(value: string) => setSearch(value)}
         />
         <CustomButton
           type="submit"
+          isLoading={isLoading}
           title="Track"
           className=""
           disabled={search === "" ? true : false}
         />
       </form>
-      <RenderIf condition={false}>
+      <RenderIf condition={!!shipmentData}>
         <div className="pt-3 flex gap-20">
           <div className="flex-1 border border-[#E5E7EB] rounded-xl ">
             <div className="p-4">
@@ -307,9 +315,9 @@ const ViewShipment = () => {
           </div>
         </div>
       </RenderIf>
-      <RenderIf condition={true}>
+      <RenderIf condition={!!shipmentData==false}>
         <div className="flex mt-20 items-center justify-center">
-          <State type={state} />
+          <State action={()=>fetchShipment} type={state} />
         </div>
       </RenderIf>
     </div>

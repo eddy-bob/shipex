@@ -16,9 +16,10 @@ interface LoginData {
   pwd: string;
   usr: string;
 }
-const login = async (options?: any) => {
-  const { mutate, ...response } = useMutation({
-    mutationFn: api.post,
+const login =  (options?: any) => {
+  console.log('entered here')
+ const navigate = useLocation();
+  const { mutateAsync, ...response } = useMutation(api.post,{
     mutationKey: [auth.login],
     ...options,
     onSuccess: async (data: any) => {
@@ -26,7 +27,6 @@ const login = async (options?: any) => {
       console.log(data);
       setLocalStorage(data?.data?.accessToken, TKE_KEY);
       setLocalStorage(data?.data?.user, AUTH_USER);
-      const navigate = useLocation();
       setTimeout(() => {
         if (navigate.state?.next) {
           const nextUrl = navigate.state.next as string;
@@ -42,10 +42,10 @@ const login = async (options?: any) => {
   });
   return {
     ...response,
-    mutate: (body: LoginData) => {
+    mutateAsync: (body: LoginData) => {
       const url = `login`;
 
-      mutate({ url, body });
+      mutateAsync({ url, body });
     },
   };
 };
