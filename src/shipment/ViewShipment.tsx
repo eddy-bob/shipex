@@ -57,12 +57,16 @@ const ViewShipment = () => {
       return;
     }
     console.log(error);
-    // TODO:update the  server api to accept Get request data as query params as the web client does not allow GET request to have a body
+    // TODO:update the  server api to accept Get request data as query params as the web client does not allow GET request to have a body.
+    
     mutateAsync({ name: search });
     //setShipment(shipmentData);
     if (search === "210173066689") {
       setShipment(data);
       console.log(shipment);
+    } else {
+      setShipment(undefined);
+      setState("not-found");
     }
   };
 
@@ -70,7 +74,6 @@ const ViewShipment = () => {
     search.length === 12
       ? setValidationMessage("")
       : setValidationMessage("Please enter a valid AWB");
-;
   }, [search]);
   return (
     <div className="p-10 bg-white">
