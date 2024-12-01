@@ -3,7 +3,7 @@ import { RequstState } from "../components/states/State";
 import React, { useEffect, useState } from "react";
 import { CustomButton, CustomInputField } from "../components";
 import queries from "../services/queries/shipment";
-import {data }from "../utils/static"
+import { data } from "../utils/static";
 
 const ViewShipment = () => {
   const [search, setSearch] = useState("210173066689");
@@ -24,15 +24,22 @@ const ViewShipment = () => {
       setState("invalid-option");
       return;
     }
+
     // TODO:update the  server api to accept Get request data as query params as the web client does not allow GET request to have a body.
     //I have created a static data object to simulate the data supposed to come from the backend so you can see what te=he design looks like as well as statically validated it so you can see the various states at work
     mutateAsync({ name: search });
+
     //setShipment(shipmentData);
     if (search === "210173066689") {
       setShipment(data);
     } else {
       setShipment(undefined);
       setState("not-found");
+    }
+    const errorBody: any = error;
+    if (errorBody && errorBody?.code && errorBody?.code === "ERR_NETWORK") {
+       setShipment(undefined);
+      setState("network-error");
     }
   };
 

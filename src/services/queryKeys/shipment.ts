@@ -1,6 +1,7 @@
 const namespace = "shipment";
 
-export default {
+ const queryKey ={
   get: `${namespace}/fetch`,
   
 };
+export default queryKey

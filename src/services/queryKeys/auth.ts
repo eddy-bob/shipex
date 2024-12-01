@@ -1,5 +1,6 @@
-const namespace = 'auth';
+const namespace = "auth";
 
-export default {
-login: `${namespace}/login`,
+const queryKey = {
+  login: `${namespace}/login`,
 };
+export default queryKey;

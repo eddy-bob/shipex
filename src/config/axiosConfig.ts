@@ -38,7 +38,8 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 };
 
 const onResponseError = async (error: AxiosError) => {
-  const statusCode = error.response!.status;
+  if (error.response && error.response.status) {
+    const statusCode = error.response!.status;
 
   if (statusCode === 401) {
     localStorage.clear();
@@ -48,6 +49,7 @@ const onResponseError = async (error: AxiosError) => {
 
     //   window.location.href = nextUrl;
     // }
+  }
   }
 
   return Promise.reject(error);
