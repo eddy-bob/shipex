@@ -66,7 +66,11 @@ const CustomInputField = ({
         }`}
       >
         <RenderIf condition={!!leftIcon}>
-          <img src={leftIcon} className={`${leftIconStyle}`} />
+          <img
+            src={leftIcon}
+            className={`${leftIconStyle}`}
+            alt="left-input-icon"
+          />
         </RenderIf>
         <input
           placeholder={placeholder}
@@ -82,11 +86,15 @@ const CustomInputField = ({
           } ${inputStyle}`}
         />
         <RenderIf condition={type === "password"}>
-          <img src="/images/eye-off.svg" onClick={computeInputType} />
+          <img
+            src="/images/eye-off.svg"
+            onClick={computeInputType}
+            alt="eye-off"
+          />
         </RenderIf>
       </div>
       <RenderIf condition={!!validationErrorMessage}>
-        <p className="text-red-base text-left text-[14px] font-[400]">
+        <p className="text-red-base text-left text-[14px] font-[500]">
           {validationErrorMessage}
         </p>
       </RenderIf>

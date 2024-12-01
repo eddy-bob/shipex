@@ -42,7 +42,7 @@ const onResponseError = async (error: AxiosError) => {
   if (statusCode === 401) {
     localStorage.clear();
     // redirect to login page if not already there
-    if (window.location.pathname !== routes.auth.login.path) {
+    if (window.location.pathname !== routes.auth.login.path && (window.location.pathname !== '/')) {
       let nextUrl = `${routes.auth.login.path}?next=${window.location.pathname}`;
 
       window.location.href = nextUrl;

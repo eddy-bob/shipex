@@ -15,6 +15,7 @@ const EmptyState = ({
         src="/images/no-result.png"
         height="144px"
         width="229.76px"
+        alt="no-result"
       />
       <div className="text-center space-y-1  ">
         <p className="text-[24px] font-[700]">{title}</p>

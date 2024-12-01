@@ -6,6 +6,7 @@ import {
 import api from "../api";
 import shipmentKey from "../queryKeys/shipment";
 
+/* eslint-disable react-hooks/rules-of-hooks */
 const trackShipment =  (options?: any) => {
   const { mutateAsync, ...response } = useMutation(api.get, {
     mutationKey: [shipmentKey.get],

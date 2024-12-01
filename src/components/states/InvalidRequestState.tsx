@@ -9,7 +9,12 @@ const InvalidRequestState = ({
   return (
     <>
       <div className="flex justify-center flex-col space-y-7 ">
-        <img src="/images/invalid.png" height="144px" width="280.83px" />
+        <img
+          src="/images/invalid.png"
+          height="144px"
+          width="280.83px"
+          alt="invalid"
+        />
         <div className="text-center">
           <p className="text-[15px] font-[500] text-[#6B7280]">{message}</p>
         </div>

@@ -2,18 +2,25 @@ import { CustomInputField, CustomButton } from "../components";
 import queries from "../services/queries/auth";
 import { useState } from "react";
 const Login = () => {
-  const [form, setForm] = useState({ pwd: "testy123@", usr: "test@brandimic.com" });
-  
-    const { mutateAsync, isLoading } =  queries.login();
+  const [form, setForm] = useState({
+    pwd: "testy123@",
+    usr: "test@brandimic.com",
+  });
+
+  const { mutateAsync, isLoading } = queries.login();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutateAsync(form);
- 
   };
   return (
     <div className="py-10 px-10 bg-white">
-      <img src="/images/app-logo.png" width="184.56px" height="32px" />
+      <img
+        src="/images/app-logo.png"
+        width="184.56px"
+        height="32px"
+        alt="app-logo"
+      />
       <div className="flex flex-col  justify-center space-y-3 h-screen items-center">
         {/*  */}
         <div className="text-center space-y-1">
