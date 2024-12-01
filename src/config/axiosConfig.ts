@@ -9,6 +9,8 @@ import { getLocalStorage } from "../helper";
 
 export const baseURL = `${SERVER_URL}/`;
 
+//i wrote this shipex code bse the expansion in mind incase the future you actually want to use the app and add more pages and features
+
 const axiosInstance = axios.create({
   baseURL,
   headers: {
@@ -22,7 +24,6 @@ const onRequest = (
   request: InternalAxiosRequestConfig
 ): InternalAxiosRequestConfig => {
   const token = getLocalStorage(TKE_KEY);
-
   if (!request.headers) return request;
   request.headers!.Authorization = `Bearer ${token}`;
   return request;
@@ -41,7 +42,6 @@ const onResponseError = async (error: AxiosError) => {
 
   if (statusCode === 401) {
     localStorage.clear();
-    
     // redirect to login page if not already there
     // if (window.location.pathname !== routes.auth.login.path && (window.location.pathname !== '/')) {
     //   let nextUrl = `${routes.auth.login.path}?next=${window.location.pathname}`;

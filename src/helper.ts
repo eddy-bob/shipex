@@ -47,5 +47,6 @@ export function handleErrors(err: any) {
 
   const errorMessage: string = data?.message || "Opps Something went wrong";
 
-  return errorMessage;
+   Promise.reject(errorMessage);
+   return errorMessage
 }

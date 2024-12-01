@@ -1,13 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
-import {
-  errorToast,
-  handleErrors,
-} from "../../helper";
+import { errorToast, handleErrors } from "../../helper";
 import api from "../api";
 import shipmentKey from "../queryKeys/shipment";
 
 /* eslint-disable react-hooks/rules-of-hooks */
-const trackShipment =  (options?: any) => {
+const trackShipment = (options?: any) => {
   const { mutateAsync, ...response } = useMutation(api.get, {
     mutationKey: [shipmentKey.get],
     ...options,
@@ -16,16 +13,18 @@ const trackShipment =  (options?: any) => {
     },
     onError: (err: any) => {
       errorToast(handleErrors(err));
-      throw err
+      throw err;
     },
   });
   return {
     ...response,
     mutateAsync: (body: { name: string }) => {
-      console.log(body)
       const url = `/frappe.client.get`;
 
-      mutateAsync({ url, body:{ doctype: "AWB", filters: { name: ["like", body.name] } } });
+      mutateAsync({
+        url,
+        body: { doctype: "AWB", filters: { name: ["like", body.name] } },
+      });
     },
   };
 };

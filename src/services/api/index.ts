@@ -8,16 +8,13 @@ type Request = {
 const del = (url: string) => axiosInstance.delete(url);
 
 const get = async ({ url, body }: Request) => {
-  console.log(body);
-
-  if (body)
-    return (
-      await axiosInstance.get(url, {
-        params: {
-          ...body,
-        },
-      })
-    ).data;
+  return (
+    await axiosInstance.get(url, {
+      params: {
+        ...body,
+      },
+    })
+  ).data;
 };
 
 const post = async ({ url, body }: Request) => {
