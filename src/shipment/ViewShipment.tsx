@@ -348,7 +348,7 @@ const ViewShipment = () => {
       </RenderIf>
       <RenderIf condition={!isLoading && !!shipmentData == false}>
         <div className="flex mt-20 items-center justify-center">
-          <State action={() => fetchShipment} type={state} />
+          <State action={() => fetchShipment()} type={state} />
         </div>
       </RenderIf>
     </div>
