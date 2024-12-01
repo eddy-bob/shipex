@@ -5,7 +5,7 @@ import { CustomButton, CustomInputField } from "../components";
 import queries from "../services/queries/shipment";
 
 const ViewShipment = () => {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState("210173066689");
   const [state, setState] = useState<RequstState>("no-result");
   const [validationMessage, setValidationMessage] = useState<string>();
   const [shipment, setShipment] = useState();
@@ -65,6 +65,7 @@ const ViewShipment = () => {
           placeholder="Enter AWB ID"
           validationErrorMessage={validationMessage}
           className="w-[600px]"
+          value={search}
           inputStyle="placeholder:text-[#6B7280] text-grey-dark font-[500]"
           onChange={(value: string) => setSearch(value)}
         />
