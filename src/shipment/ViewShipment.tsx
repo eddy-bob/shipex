@@ -3,40 +3,8 @@ import { RequstState } from "../components/states/State";
 import React, { useEffect, useState } from "react";
 import { CustomButton, CustomInputField } from "../components";
 import queries from "../services/queries/shipment";
-const data = {
-  trackId: "4515645646466",
-  updated: "Last updated 16/12/2023 11:33 AM",
-  sender: "Mohamamd Manaa",
-  consignee: "Beshouy Ezzat",
-  originAddress: "Ahmed Hassan\n 25, Nile Street, Zamalek\n Cairo\n Egypt",
-  shippingService: "Express Service",
-  totalCODAmount: "499.55 EGP",
-  destinationAddress:
-    "Fatima Ali\n 10, Corniche Road Gleem\n Alexandria\n Egypt",
-  shipmentCreated: {
-    time: "12:05PM ",
-    date: "Dec 16, 2023",
-    description: "Shipment Description",
-    by: "Abdo Saeed",
-  },
+import {data }from "../utils/static"
 
-  shipmentPickedUp: {
-    time: "14:05PM",
-    date: "Dec 16, 2023",
-    by: "Beshouy Ezzat",
-  },
-  proofOfPickedUp: {
-    time: "14:08PM",
-    date: " Dec 16, 2023",
-    by: "James Collins",
-    description: "Proof of pick-up description",
-  },
-  shipmentOnDelivery: {
-    time: "12:05PM",
-    date: "Dec 16, 2023",
-    description: "Description goes here",
-  },
-};
 const ViewShipment = () => {
   const [search, setSearch] = useState("210173066689");
   const [state, setState] = useState<RequstState>("no-result");
@@ -56,14 +24,12 @@ const ViewShipment = () => {
       setState("invalid-option");
       return;
     }
-    console.log(error);
     // TODO:update the  server api to accept Get request data as query params as the web client does not allow GET request to have a body.
-    
+    //I have created a static data object to simulate the data supposed to come from the backend so you can see what te=he design looks like as well as statically validated it so you can see the various states at work
     mutateAsync({ name: search });
     //setShipment(shipmentData);
     if (search === "210173066689") {
       setShipment(data);
-      console.log(shipment);
     } else {
       setShipment(undefined);
       setState("not-found");
