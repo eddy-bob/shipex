@@ -21,6 +21,7 @@ const trackShipment =  (options?: any) => {
   return {
     ...response,
     mutateAsync: (body: { name: string }) => {
+      console.log(body)
       const url = `/frappe.client.get`;
 
       mutateAsync({ url, body });
