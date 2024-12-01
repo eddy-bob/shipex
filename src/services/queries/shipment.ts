@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { errorToast, handleErrors } from "../../helper";
 import api from "../api";
 import shipmentKey from "../queryKeys/shipment";
+import { error } from "console";
 
 /* eslint-disable react-hooks/rules-of-hooks */
 const trackShipment = (options?: any) => {
@@ -12,7 +13,7 @@ const trackShipment = (options?: any) => {
       console.log(data);
     },
     onError: (err: any) => {
-      errorToast(handleErrors(err));
+      console.log(err);
     },
   });
   return {
