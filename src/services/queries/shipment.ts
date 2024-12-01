@@ -16,6 +16,7 @@ const trackShipment =  (options?: any) => {
     },
     onError: (err: any) => {
       errorToast(handleErrors(err));
+      throw err
     },
   });
   return {
