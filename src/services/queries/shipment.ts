@@ -23,7 +23,7 @@ const trackShipment =  (options?: any) => {
     mutateAsync: (body: { name: string }) => {
       const url = `/frappe.client.get`;
 
-      mutateAsync({ url, body });
+      mutateAsync({ url, {doctype:"AWB",filters:{name:["like",body.name]}} });
     },
   };
 };
