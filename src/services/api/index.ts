@@ -3,12 +3,24 @@ import axiosInstance from "../../config/axiosConfig";
 type Request = {
   url: string;
   body?: any;
-
 };
 
 const del = (url: string) => axiosInstance.delete(url);
 
-const get = async ({ url }: Request) => {
+const get = async ({ url, body }: Request) => {
+  console.log(body)
+  if (body) {
+   return await axiosInstance({
+      method: 'get',
+      url: url,
+     
+      headers: {
+        'Content-Type': 'application/json',
+      },
+       data: body,
+    })
+  }
+  
   return (await axiosInstance.get(url)).data;
 };
 

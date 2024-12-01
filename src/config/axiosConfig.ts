@@ -3,7 +3,7 @@ import axios, {
   InternalAxiosRequestConfig,
   AxiosResponse,
 } from "axios";
-import routes from "../routes";
+// import routes from "../routes";
 import { SERVER_URL, TKE_KEY } from "../utils/static";
 import { getLocalStorage } from "../helper";
 

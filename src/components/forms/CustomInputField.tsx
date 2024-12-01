@@ -56,7 +56,7 @@ const CustomInputField = ({
     }
   };
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 ">
       <div
         ref={inputRef}
         style={style}
@@ -94,7 +94,7 @@ const CustomInputField = ({
         </RenderIf>
       </div>
       <RenderIf condition={!!validationErrorMessage}>
-        <p className="text-red-base text-left text-[14px] font-[500]">
+        <p className="text-red-base text-left text-[14px] font-[500] ">
           {validationErrorMessage}
         </p>
       </RenderIf>

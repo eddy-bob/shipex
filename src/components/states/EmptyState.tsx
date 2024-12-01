@@ -2,7 +2,7 @@ interface IProps {
   title?: string;
   message?: string;
 
-  action?: () => any;
+  action?: (a: React.FormEvent<HTMLFormElement>) => any;
 }
 const EmptyState = ({
   title = "No results found",
@@ -21,14 +21,17 @@ const EmptyState = ({
         <p className="text-[24px] font-[700]">{title}</p>
         <p className="text-[14px] font-[400] text-[#838282]">{message}</p>
       </div>
-      <div className="flex justify-center w-full ">
+      <form
+        onSubmit={(a: React.FormEvent<HTMLFormElement>) => action && action(a)}
+        className="flex justify-center w-full "
+      >
         <button
-          onClick={action}
+          type="submit"
           className="border-none focus:border-none text-blue-base focus:outline-none text-center focus:ring-0 font-[600] text-[15px]"
         >
           Retry
         </button>
-      </div>
+      </form>
     </div>
   );
 };

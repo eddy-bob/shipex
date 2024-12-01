@@ -8,9 +8,9 @@ export type RequstState = "not-found" | "no-result" | "network-error" | 'invalid
 
 interface IProps {
   title?: string;
-    message?: string;
+  message?: string;
   type?: RequstState;
-  action?: () => any;
+  action?: (a: React.FormEvent<HTMLFormElement>) => any;
 }
 const State = ({ title, message, action,type='no-result' }: IProps) => {
     return (
