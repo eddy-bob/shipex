@@ -25,7 +25,7 @@ const ViewShipment = () => {
       return;
     }
     // TODO:update the  server api to accept Get request data as query params as the web client does not allow GET request to have a body.
-    //I have created a static data object to simulate the data supposed to come from the backend so you can see what the design looks like as well as statically validated it so you can see the various states at work
+    //I have created a static data object to simulate the data supposed to come from the backend so you can see what te=he design looks like as well as statically validated it so you can see the various states at work
     mutateAsync({ name: search });
     //setShipment(shipmentData);
     if (search === "210173066689") {
@@ -63,7 +63,7 @@ const ViewShipment = () => {
           disabled={search === "" ? true : false}
         />
       </form>
-      <RenderIf condition={!isLoading && !!shipmentData}>
+      <RenderIf condition={!isLoading && !!shipment}>
         <div className="pt-3 flex gap-20">
           <div className="flex-1 border border-[#E5E7EB] rounded-xl ">
             <div className="p-4">
@@ -315,7 +315,7 @@ const ViewShipment = () => {
           </div>
         </div>
       </RenderIf>
-      <RenderIf condition={isLoading && !!shipment === false}>
+      <RenderIf condition={isLoading && !!shipmentData === false}>
         <div className="flex mt-20 items-center  justify-center">
           <svg
             aria-hidden="true"
