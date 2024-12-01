@@ -94,7 +94,7 @@ const ViewShipment = () => {
           disabled={search === "" ? true : false}
         />
       </form>
-      <RenderIf condition={!isLoading && !!shipmentData}>
+      <RenderIf condition={!isLoading && !!shipment}>
         <div className="pt-3 flex gap-20">
           <div className="flex-1 border border-[#E5E7EB] rounded-xl ">
             <div className="p-4">
@@ -346,7 +346,7 @@ const ViewShipment = () => {
           </div>
         </div>
       </RenderIf>
-      <RenderIf condition={isLoading && !!shipmentData === false}>
+      <RenderIf condition={isLoading && !!shipment === false}>
         <div className="flex mt-20 items-center  justify-center">
           <svg
             aria-hidden="true"
@@ -366,7 +366,7 @@ const ViewShipment = () => {
           </svg>
         </div>
       </RenderIf>
-      <RenderIf condition={!isLoading && !!shipmentData === false}>
+      <RenderIf condition={!isLoading && !!shipment === false}>
         <div className="flex mt-20 items-center justify-center">
           <State action={fetchShipment} type={state} />
         </div>
