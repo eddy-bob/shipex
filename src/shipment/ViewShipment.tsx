@@ -66,7 +66,7 @@ const ViewShipment = () => {
           type="submit"
           isLoading={isLoading}
           title="Track"
-          className="w-[119px] h-[44px] "
+          className="w-[100px] h-[44px] "
           disabled={search === "" ? true : false}
         />
       </form>

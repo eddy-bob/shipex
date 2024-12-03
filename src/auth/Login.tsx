@@ -1,12 +1,13 @@
 import { CustomInputField, CustomButton } from "../components";
 import queries from "../services/queries/auth";
 import { useState } from "react";
+
 const Login = () => {
   const [form, setForm] = useState({
     pwd: "testy123@",
     usr: "test@brandimic.com",
   });
-
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
   const { mutateAsync, isLoading } = queries.login();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -65,8 +66,11 @@ const Login = () => {
           </div>
           <div className="flex space-x-3 pt-1">
             <input
+              onChange={(value) => {
+                setAgreeToTerms(value.target.checked);
+              }}
               type="checkbox"
-              className="rounded-md border border-[#E5E7EB]"
+              className="rounded-md border border-[#E5E7EB] focus:outline-none"
             />
             <p className="font-[500] text-[16px] text-grey-dark">Remember me</p>
           </div>
@@ -76,7 +80,9 @@ const Login = () => {
               type="submit"
               isLoading={isLoading}
               title="Sign in"
-              disabled={form.pwd === "" || form.usr === ""}
+              disabled={
+                form.pwd === "" || form.usr === "" || agreeToTerms === false
+              }
             />
           </div>
         </form>
