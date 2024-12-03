@@ -8,13 +8,11 @@ First thing first. Run the below code to install dependencies.
 ### `yarn`
 
 # Important Information
-I have created a static shipment data inside statics file to simulate the data supposed to come from the backend so you can see what the shiment  tracking data design looks like as well as statically validated it so you can see the various states at work. 
-This is because the api provided to fetch a shipment using its trackId is a GET request that accepts a body. Client browsers to not allow Get requests to have bodies. The provided way to send data through a GET request in by using query params which is what implented but doesnt work as the server needs to make this adjustment too.
-I wrote this shipex code base the expansion in mind incase the future you actually want to use the app and add more pages and features so you muight notice some implemntations that are not being used just yet
+I wrote this shipex code base with expansion in mind incase in the future you actually want to use the app and add more pages and features so you might notice some implemntations that are not being used just yet
 
 
 ## Recommendations
-Configure the fetch shipment by trackId api on the backend to accept query Params instead of body as it will only work on POSTMAN but not on other client.  This is the best wayto do it and the general best practice when requesting data from a GET request api.
+Configure the fetch shipment by trackId api on the backend to accept query Params instead of body as it will only work on POSTMAN but not on other client or change it to a POST request.  This is the best way to do it and the general best practice when requesting data from a GET request api.
 
 
 ## Available Scripts

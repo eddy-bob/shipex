@@ -80,6 +80,7 @@ const Login = () => {
               type="submit"
               isLoading={isLoading}
               title="Sign in"
+              style={{width:'100%'}}
               disabled={
                 form.pwd === "" || form.usr === "" || agreeToTerms === false
               }

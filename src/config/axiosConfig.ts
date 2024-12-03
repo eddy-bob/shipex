@@ -7,12 +7,12 @@ import axios, {
 import { SERVER_URL, TKE_KEY } from "../utils/static";
 import { getLocalStorage } from "../helper";
 
-export const baseURL = `${SERVER_URL}/`;
+export const baseURL = `${SERVER_URL}`;
 
 //i wrote this shipex code bse the expansion in mind incase the future you actually want to use the app and add more pages and features
 
 const axiosInstance = axios.create({
-  baseURL,
+  baseURL:'v1',
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json, text/plain, */*",

@@ -3,7 +3,6 @@ import { RequstState } from "../components/states/State";
 import React, { useEffect, useState } from "react";
 import { CustomButton, CustomInputField } from "../components";
 import queries from "../services/queries/shipment";
-import { data } from "../utils/static";
 
 const ViewShipment = () => {
   const [search, setSearch] = useState("210173066689");
@@ -24,23 +23,40 @@ const ViewShipment = () => {
       setState("invalid-option");
       return;
     }
-
-    // TODO:update the  server api to accept Get request data as query params as the web client does not allow GET request to have a body.
-    //I have created a static data object to simulate the data supposed to come from the backend so you can see what te=he design looks like as well as statically validated it so you can see the various states at work
     mutateAsync({ name: search });
+  };
+  const formatDateTime = (dateTimeString: string) => {
+    const dateObj = new Date(dateTimeString);
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
 
-    //setShipment(shipmentData);
-    if (search === "210173066689") {
-      setShipment(data);
-    } else {
-      setShipment(undefined);
-      setState("not-found");
-    }
-    const errorBody: any = error;
-    if (errorBody && errorBody?.code && errorBody?.code === "ERR_NETWORK") {
-       setShipment(undefined);
-      setState("network-error");
-    }
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const month = monthNames[dateObj.getMonth()];
+    const year = dateObj.getFullYear();
+
+    let hours = dateObj.getHours();
+    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+
+    const amPm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+
+    // Construct formatted date and time
+    const fullDate = `${day}/${month}/${year} ${hours}:${minutes} ${amPm}`;
+    const time = ` ${hours}:${minutes}${amPm}`;
+    const date = `${month} ${day},${year}`;
+    return { time, fullDate, year, month, day, date };
   };
 
   useEffect(() => {
@@ -48,6 +64,27 @@ const ViewShipment = () => {
       ? setValidationMessage("")
       : setValidationMessage("Please enter a valid AWB");
   }, [search]);
+  useEffect(() => {
+    if (shipmentData) {
+      setShipment(shipmentData?.message);
+    }
+    if (error) {
+      setShipment(undefined);
+      const errorBody: any = error;
+      if (errorBody && errorBody.code) {
+        if (
+          errorBody?.code === "ERR_NETWORK" ||
+          errorBody.code === "ERR_BAD_RESPONSE"
+        ) {
+          setState("network-error");
+        } else if (errorBody.code === "ERR_BAD_REQUEST") {
+          setState("not-found");
+        }
+      } else {
+        setState("network-error");
+      }
+    }
+  }, [isLoading]);
   return (
     <div className="p-10 bg-white">
       <form
@@ -66,7 +103,7 @@ const ViewShipment = () => {
           type="submit"
           isLoading={isLoading}
           title="Track"
-          className="w-[100px] h-[44px] "
+          className="w-[120px] h-[44px] "
           disabled={search === "" ? true : false}
         />
       </form>
@@ -76,10 +113,10 @@ const ViewShipment = () => {
             <div className="p-4">
               <div>
                 <p className="text-grey-dark text-[18px] font-[700]">
-                  {shipment?.trackId}
+                  {shipment?.name}
                 </p>
                 <p className="text-grey-lighter text-[14px] font-[400]">
-                  {shipment?.updated}
+                  {formatDateTime(shipment?.modified).fullDate}
                 </p>
               </div>
               <div className="py-8 pl-3.5 pr-20">
@@ -100,7 +137,7 @@ const ViewShipment = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-grey-dark font-[500] text-[15px]">
-                      {shipment?.sender}
+                      {shipment?.sender_name}
                     </p>
                   </div>
                 </div>
@@ -138,9 +175,12 @@ const ViewShipment = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-grey-dark font-[500] text-[15px]">
-                      {shipment?.originAddress}
-                    </p>
+                    <div className="text-grey-dark font-[500] text-[15px]">
+                      <p>{shipment?.origin_branch}</p>
+                      <p>{shipment?.origin_city}</p>
+                      <p>{shipment?.origin_state}</p>
+                      <p>{shipment?.origin_country}</p>
+                    </div>
                   </div>
                 </div>
                 {/*  */}
@@ -156,9 +196,12 @@ const ViewShipment = () => {
                     </div>
                   </div>
                   <div className="flex-1">
-                    <p className="text-grey-dark font-[500] text-[15px]">
-                      {shipment?.destinationAddress}
-                    </p>
+                    <div className="text-grey-dark font-[500] text-[15px]">
+                      <p>{shipment?.destination_branch}</p>
+                      <p>{shipment?.destination_city}</p>{" "}
+                      <p>{shipment?.destination_state}</p>
+                      <p>{shipment?.destination_country}</p>
+                    </div>
                   </div>
                 </div>
                 {/*  */}
@@ -175,7 +218,7 @@ const ViewShipment = () => {
                   </div>
                   <div className="flex-1">
                     <p className="text-grey-dark font-[500] text-[15px]">
-                      {shipment?.shippingService}
+                      {shipment?.shipping_service}
                     </p>
                   </div>
                 </div>
@@ -195,18 +238,18 @@ const ViewShipment = () => {
               </div>
               <div className="">
                 <p className="text-grey-dark font-[500] text-[15px]">
-                  {shipment?.totalCODAmount}
+                  {shipment?.total_cod}
                 </p>
               </div>
             </div>
           </div>
-          <div className="flex-1 text-[14px] font-[400] p-2">
+          <div className="flex-1 text-[14px] font-[400] align-top p-3">
             <p className="text-grey-dark text-[18px] font-[700]">TIMELINE</p>
             <div className="pt-4 ">
               <div className="flex  items-start space-x-3 ">
                 <div className="text-grey-lighter  text-[14px] font-[500]">
-                  <p>{shipment?.shipmentCreated.time}</p>
-                  <p>{shipment?.shipmentCreated.date}</p>
+                  <p>{formatDateTime(shipment?.creation).time}</p>
+                  <p>{formatDateTime(shipment?.creation).date}</p>
                 </div>
                 <div className="flex flex-col   items-center min-h-[118px] h-full">
                   <div className="border p-1 border-[#E5E7EB] rounded-full">
@@ -219,7 +262,7 @@ const ViewShipment = () => {
                     Shipment created
                   </p>
                   <p className="text-grey-lighter text-[16px] font-[500]">
-                    {shipment?.shipmentCreated.description}
+                    {shipment?.description || "Shipment Description"}
                   </p>
                   <div className="pt-2 flex space-x-2 align-top">
                     <img
@@ -228,7 +271,7 @@ const ViewShipment = () => {
                       className="rounded-full mt-1"
                     />
                     <p className="text-grey-dark text-[15px] font-[600]">
-                      {shipment?.shipmentCreated.by}
+                      {shipment?.owner?.split("@")[0]}
                     </p>
                   </div>
                 </div>
@@ -236,8 +279,8 @@ const ViewShipment = () => {
               {/*  */}
               <div className="flex items-start  space-x-3">
                 <div className="text-grey-lighter  text-[14px] font-[500]">
-                  <p>{shipment?.shipmentPickedUp.time}</p>
-                  <p>{shipment?.shipmentPickedUp.date}</p>
+                  <p>{formatDateTime(shipment?.creation).time}</p>
+                  <p>{formatDateTime(shipment?.creation).date}</p>
                 </div>
                 <div className="flex  h-full min-h-[97px]  items-center flex-col">
                   <div className="border p-1 border-[#E5E7EB] rounded-full">
@@ -257,7 +300,7 @@ const ViewShipment = () => {
                       className="rounded-full mt-1"
                     />
                     <p className="text-grey-dark text-[15px] font-[600]">
-                      {shipment?.shipmentPickedUp.by}
+                      {shipment?.modified_by?.split("@")[0]}
                     </p>
                   </div>
                 </div>
@@ -265,8 +308,8 @@ const ViewShipment = () => {
               {/*  */}
               <div className="flex items-start space-x-3">
                 <div className="text-grey-lighter  text-[14px] font-[500]">
-                  <p>{shipment?.proofOfPickedUp.time}</p>
-                  <p>{shipment?.proofOfPickedUp.date}</p>
+                  <p>{formatDateTime(shipment?.modified).time}</p>
+                  <p>{formatDateTime(shipment?.modified).date}</p>
                 </div>
                 <div className="flex flex-col items-center min-h-[113px] h-full">
                   <div className="border p-1 border-[#E5E7EB] rounded-full">
@@ -282,7 +325,7 @@ const ViewShipment = () => {
                     Proof of pick-up
                   </p>
                   <p className="text-grey-lighter text-[16px] font-[500]">
-                    {shipment?.proofOfPickedUp.description}
+                    {shipment?.description || "Shipment Description"}
                   </p>
                   <div className=" flex space-x-2 pt-1">
                     <img
@@ -291,7 +334,7 @@ const ViewShipment = () => {
                       className="rounded-full mt-1"
                     />
                     <p className="text-grey-dark text-[15px] font-[600]">
-                      {shipment?.proofOfPickedUp.by}
+                      {shipment?.modified_by?.split("@")[0]}
                     </p>
                   </div>
                 </div>
@@ -299,8 +342,20 @@ const ViewShipment = () => {
               {/*  */}
               <div className="flex items-start space-x-3">
                 <div className="text-grey-lighter  text-[14px] font-[500]">
-                  <p>{shipment?.shipmentOnDelivery.time}</p>
-                  <p>{shipment?.shipmentOnDelivery.date}</p>
+                  <p>
+                    {
+                      formatDateTime(
+                        `${shipment?.posting_date} ${shipment?.posting_time}`
+                      ).time
+                    }
+                  </p>
+                  <p>
+                    {
+                      formatDateTime(
+                        `${shipment?.posting_date} ${shipment?.posting_time}`
+                      ).date
+                    }
+                  </p>
                 </div>
                 <div className="flex flex-col items-center min-h-[85px] h-full">
                   <div className="border p-1 border-[#E5E7EB] rounded-full">
@@ -313,7 +368,7 @@ const ViewShipment = () => {
                     Shipment on delivery
                   </p>
                   <p className="text-grey-lighter text-[16px] font-[500]">
-                    {shipment?.shipmentOnDelivery.description}
+                    {shipment?.description || "Shipment Description"}
                   </p>
                 </div>
               </div>

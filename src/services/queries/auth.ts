@@ -15,6 +15,7 @@ interface LoginData {
   usr: string;
 }
 
+const baseURL="api/method"
 /* eslint-disable react-hooks/rules-of-hooks */
 const login = (options?: any) => {
   const { mutateAsync, ...response } = useMutation(api.post, {
@@ -44,7 +45,7 @@ const login = (options?: any) => {
   return {
     ...response,
     mutateAsync: (body: LoginData) => {
-      const url = `login`;
+      const url = `/${baseURL}/login`;
 
       mutateAsync({ url, body });
     },
