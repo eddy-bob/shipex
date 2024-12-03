@@ -1,10 +1,10 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
-import { SERVER_URL } from "./utils/static";
+import server_
 module.exports = function (app) {
   app.use(
     "/v1",
     createProxyMiddleware({
-      target: SERVER_URL,
+      target: "https://shippex-demo.bc.brandimic.com/",
       changeOrigin: true,
       pathRewrite: { "^/v1": "" },
     })
