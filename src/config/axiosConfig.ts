@@ -12,7 +12,7 @@ export const baseURL = `${SERVER_URL}`;
 //i wrote this shipex code bse the expansion in mind incase the future you actually want to use the app and add more pages and features
 
 const axiosInstance = axios.create({
-  baseURL:'v1',
+  baseURL:(process.env.NODE_ENV ==='production' ? baseURL: 'v1'),
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json, text/plain, */*",

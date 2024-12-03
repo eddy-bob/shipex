@@ -82,7 +82,7 @@ const Login = () => {
               title="Sign in"
               style={{width:'100%'}}
               disabled={
-                form.pwd === "" || form.usr === "" || agreeToTerms === false
+                form.pwd === "" || form.usr === "" 
               }
             />
           </div>
